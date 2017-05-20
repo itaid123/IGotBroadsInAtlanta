@@ -1,0 +1,9 @@
+{
+  "name": "gify-panda",
+  "version": "1.0.0",
+  "description": "Happy to serve you files from 'resources' directory",
+  "main": "gify-panda.js",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}

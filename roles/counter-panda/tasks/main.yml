@@ -1,0 +1,17 @@
+---
+# tasks file for counter-panda-role
+- name: copy counter-panda
+  copy: src=counter-panda dest=/tmp/ owner=root group=root mode=0755
+
+- name: npm install
+  npm: path=/tmp/counter-panda
+
+- name: "Check list of Node.js apps running."
+  command: forever list
+  register: forever_list
+  changed_when: false
+
+- name: "Start counter-panda.js (Node.js) app."
+  command: forever start /tmp/counter-panda/counter-panda.js
+  when: "forever_list.stdout.find('counter-panda.js') == -1"
+

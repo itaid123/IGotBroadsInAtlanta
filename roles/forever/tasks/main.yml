@@ -1,0 +1,13 @@
+---
+# tasks file for forever
+- name: Install "forever" node.js package globally.
+  npm:
+    name: forever
+    global: yes
+    state: present
+
+- name: change file content with "lineinfile"
+  lineinfile:
+    dest: /usr/local/lib/node_modules/forever/bin/forever
+    regexp: '\/usr\/bin\/env node'
+    line: '#!/usr/bin/env nodejs'

@@ -1,0 +1,16 @@
+---
+# tasks file for gify-panda-role
+- name: copy gify-panda
+  copy: src=gify-panda dest=/tmp/ owner=root group=root mode=0755
+
+- name: npm install
+  npm: path=/tmp/gify-panda
+
+- name: "Check list of Node.js apps running."
+  command: forever list
+  register: forever_list
+  changed_when: false
+
+- name: "Start gify-panda.js (Node.js) app."
+  command: forever start /tmp/gify-panda/gify-panda.js
+  when: "forever_list.stdout.find('gify-panda.js') == -1"
