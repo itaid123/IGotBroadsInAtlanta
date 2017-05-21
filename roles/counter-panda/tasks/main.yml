@@ -2,6 +2,7 @@
 # tasks file for counter-panda-role
 - name: copy counter-panda
   copy: src=counter-panda dest=/tmp/ owner=root group=root mode=0755
+  register: copyCounterPandaFiles
 
 - name: npm install
   npm: path=/tmp/counter-panda
@@ -11,7 +12,10 @@
   register: forever_list
   changed_when: false
 
-- name: "Start counter-panda.js (Node.js) app."
+- name: "Start counter-panda.js app."
   command: forever start /tmp/counter-panda/counter-panda.js
   when: "forever_list.stdout.find('counter-panda.js') == -1"
 
+- name: "Restart counter-panda.js app in case of files change."
+  command: forever restart /tmp/counter-panda/counter-panda.js
+  when: copyCounterPandaFiles.changed and "forever_list.stdout.find('counter-panda.js') != -1"

@@ -2,6 +2,7 @@
 # tasks file for gify-panda-role
 - name: copy gify-panda
   copy: src=gify-panda dest=/tmp/ owner=root group=root mode=0755
+  register: copyGifyPandaFiles
 
 - name: npm install
   npm: path=/tmp/gify-panda
@@ -11,6 +12,10 @@
   register: forever_list
   changed_when: false
 
-- name: "Start gify-panda.js (Node.js) app."
+- name: "Start gify-panda.js app."
   command: forever start /tmp/gify-panda/gify-panda.js
   when: "forever_list.stdout.find('gify-panda.js') == -1"
+
+- name: "Restart gify-panda.js app in case of files change."
+  command: forever restart /tmp/gify-panda/gify-panda.js
+  when: copyGifyPandaFiles.changed and "forever_list.stdout.find('gify-panda.js') != -1"

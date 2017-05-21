@@ -1,4 +1,4 @@
-/* This service is Listening for requests for specific files
+/* This service is Listening for requests for specific files 
    by URLS and serving them to the user from "resources" directory.*/
 
 var config = require('./config.json');

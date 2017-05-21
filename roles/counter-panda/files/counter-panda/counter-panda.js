@@ -19,7 +19,7 @@ function handleRequest(request, response){
 // This function increase the counter every POST request
 dispatcher.onGet("/", function(req, res) {
     counter++;
-    res.writeHead(200, {'Content-Type': 'text/plain'};
+    res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end('Already served ' + counter + ' POST requests');
 });
 
@@ -33,3 +33,4 @@ dispatcher.onError(function(req, res) {
 http.createServer(handleRequest).listen(config.port, function(){
     console.log("Server listening on: http://localhost:%s", config.port);
 });
+
